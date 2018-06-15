@@ -3,6 +3,16 @@
  */
 
 
+const card 		 = document.querySelectorAll(".class");
+const deck 		 = document.querySelectorAll(".deck");
+
+const scorePanel = document.querySelector(".score-panel");
+const stars	 = document.querySelector(".scores");
+const moves 	 = document.querySelector(".moves");
+const restartButton = document.querySelector(".restart");
+
+/*
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -36,3 +46,5 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
