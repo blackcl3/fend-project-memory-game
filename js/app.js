@@ -3,13 +3,14 @@
  */
 
 
-const card 		 = document.querySelectorAll(".class");
-const deck 		 = document.querySelectorAll(".deck");
+const memoryCard = document.querySelectorAll(".deck li");
+const deck = document.querySelector(".deck");
+const scorePanel = document.querySelectorAll(".score-panel");
+const stars	= document.querySelectorAll(".scores");
+const moves = document.querySelectorAll(".moves");
+const restartButton = document.querySelectorAll(".restart");
+const openCardList = [];
 
-const scorePanel = document.querySelector(".score-panel");
-const stars	 = document.querySelector(".scores");
-const moves 	 = document.querySelector(".moves");
-const restartButton = document.querySelector(".restart");
 
 /*
 
@@ -21,19 +22,19 @@ const restartButton = document.querySelector(".restart");
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+// function shuffle(array) {
+//     var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+//     while (currentIndex !== 0) {
+//         randomIndex = Math.floor(Math.random() * currentIndex);
+//         currentIndex -= 1;
+//         temporaryValue = array[currentIndex];
+//         array[currentIndex] = array[randomIndex];
+//         array[randomIndex] = temporaryValue;
+//     }
 
-    return array;
-}
+//     return array;
+// }
 
 
 /*
@@ -47,4 +48,33 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+//function derived from https://www.reddit.com/r/learnjavascript/comments/3rfyi2/which_is_the_better_way_to_add_an_event_listener/
+deck.addEventListener('click', function(e) {
+	if(/card/.test(e.target.className)) {
+		//add class 'open
+		// e.target.classList.add("open", "show");
+		let cardEventTarget = e.target;
+		let cardEventTargetChild = e.target.children;
+		display(cardEventTarget);
+		addToOpenCardList(cardEventTargetChild);
+	}
+}, false);
 
+function display(cardEventTarget) {
+	 cardEventTarget.classList.add("open", "show");
+};
+
+function addToOpenCardList(cardEventTargetChild) {
+	//add to array of open cards
+	//this list will continue to grow as cards are matched properly
+	openCardList.push(cardEventTargetChild);
+
+};
+
+function checkOpenCardListMatch(cardEventTargetChild) {
+	openCardList.forEach(function(arrOfHTMLCollection){
+
+		//check cards and see if they match, if match, lock (keep open and show classes, add match class) (requires separate function)
+		// if no match, remove cards from list and hide cards (remove open and show classes) (requires separate function)
+	});
+};
