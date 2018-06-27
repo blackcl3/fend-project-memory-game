@@ -55,8 +55,11 @@ deck.addEventListener('click', function(e) {
 		// e.target.classList.add("open", "show");
 		let cardEventTarget = e.target;
 		let cardEventTargetChild = e.target.children;
+		//convert cardEventTargetCHild from HTML collection to array, so that class can be accessed
+		const cardChildArray = Array.from(cardEventTargetChild);
 		display(cardEventTarget);
-		addToOpenCardList(cardEventTargetChild);
+		addToOpenCardList(cardChildArray);
+		checkOpenCard(cardChildArray);
 	}
 }, false);
 
@@ -64,17 +67,38 @@ function display(cardEventTarget) {
 	 cardEventTarget.classList.add("open", "show");
 };
 
-function addToOpenCardList(cardEventTargetChild) {
+function addToOpenCardList(cardChildArray) {
 	//add to array of open cards
 	//this list will continue to grow as cards are matched properly
-	openCardList.push(cardEventTargetChild);
+	openCardList.push(cardChildArray);
+	if(openCardList.length > 1) {
+		checkOpenCard(openCardList)
+	}
 
 };
 
-function checkOpenCardListMatch(cardEventTargetChild) {
-	openCardList.forEach(function(arrOfHTMLCollection){
+function checkOpenCard(openCardList, cardarray) {
+		if (openCardList.indexOf(cardarray) === -1) {
+        	console.log('New array is : ' + openCardList);
+    	} else if (openCardList.indexOf(cardarray) > -1) {
+        	console.log(cardarray + ' already exists in the veggies collection.');
+    	}
 
-		//check cards and see if they match, if match, lock (keep open and show classes, add match class) (requires separate function)
-		// if no match, remove cards from list and hide cards (remove open and show classes) (requires separate function)
-	});
+		// for(let i = 1; i < openCardList.length; i++){
+		// 	//function runs through the array and sees if card matches
+		// 	if(openCardList[i][0] === openCardList[(i-1)][0]){
+		// 		console.log("equals");
+		// 		// lock function
+		// 	} else {
+		// 		console.log("not equal");
+		// 		// remove from list, hide (), separate function
+		// 	}
+		// };
+		// //check cards and see if they match, if match, lock (keep open and show classes, add match class) (requires separate function)
+		// // if no match, remove cards from list and hide cards (remove open and show classes) (requires separate function)
 };
+
+function listMatch(cardEventTargetChild) {
+
+};
+
