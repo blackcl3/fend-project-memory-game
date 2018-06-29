@@ -3,13 +3,13 @@
  */
 
 
-const memoryCard = document.querySelectorAll(".deck li");
+const allCards = document.querySelectorAll(".card");
 const deck = document.querySelector(".deck");
 const scorePanel = document.querySelectorAll(".score-panel");
 const stars	= document.querySelectorAll(".scores");
 const moves = document.querySelectorAll(".moves");
 const restartButton = document.querySelectorAll(".restart");
-const openCardList = [];
+let openCardList = [];
 
 
 /*
@@ -49,39 +49,55 @@ const openCardList = [];
  */
 
 //function derived from https://www.reddit.com/r/learnjavascript/comments/3rfyi2/which_is_the_better_way_to_add_an_event_listener/
-deck.addEventListener('click', function(e) {
-	if(/card/.test(e.target.className)) {
-		//add class 'open
-		// e.target.classList.add("open", "show");
-		let cardEventTarget = e.target;
-		let cardEventTargetChild = e.target.children;
-		//convert cardEventTargetCHild from HTML collection to array, so that class can be accessed
-		const cardChildArray = Array.from(cardEventTargetChild);
-		display(cardEventTarget);
-		addToOpenCardList(cardChildArray);
-		checkOpenCard(cardChildArray);
-	}
-}, false);
+allCards.forEach(function(card) {
+	card.addEventListener('click', function(e) {
+		if (card.classList.contains("open") || !card.classList.contains("show")){
 
-function display(cardEventTarget) {
-	 cardEventTarget.classList.add("open", "show");
+			openCardList.push(card);
+			display(card);
+		};
+
+	if(openCardList.length == 2) {
+		//hide
+		setTimeout(function(){
+			openCardList.forEach(function(card){
+				card.classList.remove("open", "show");
+			});
+			openCardList = [];
+		}, 1000);
+	} else if (openCardList.length > 2) {
+		//don't add more cards
+	}
+
+	// }
+});
+
+});
+
+
+function display(card) {
+	 card.classList.add("open", "show");
 };
 
 function addToOpenCardList(cardChildArray) {
 	//add to array of open cards
 	//this list will continue to grow as cards are matched properly
 	openCardList.push(cardChildArray);
-	if(openCardList.length > 1) {
-		checkOpenCard(openCardList)
+	if(openCardList.length >= 2) {
+		//hide
+	} else {
+		display(cardEventTarget);
 	}
+		checkOpenCard(openCardList, cardChildArray)
 
 };
 
+// function derived from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf#Compatibility_notes
 function checkOpenCard(openCardList, cardarray) {
 		if (openCardList.indexOf(cardarray) === -1) {
         	console.log('New array is : ' + openCardList);
     	} else if (openCardList.indexOf(cardarray) > -1) {
-        	console.log(cardarray + ' already exists in the veggies collection.');
+        	console.log('You got a match!');
     	}
 
 		// for(let i = 1; i < openCardList.length; i++){
