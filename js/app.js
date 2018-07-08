@@ -3,6 +3,10 @@
  */
 
 
+
+
+
+
 let cards = [
 			"fa-diamond", "fa-diamond",
 			"fa-paper-plane-o","fa-paper-plane-o",
@@ -13,6 +17,17 @@ let cards = [
 			"fa-bicycle", "fa-bicycle",
 			"fa-bomb", "fa-bomb"
 			];
+
+
+
+/*
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
 
 function generateCard(card) {
 	return `<li class="card">` + `<i class='fa ${card}'></i>` + `</li>`;
@@ -37,16 +52,8 @@ const stars	= document.querySelectorAll(".scores");
 const moves = document.querySelectorAll(".moves");
 const restartButton = document.querySelectorAll(".restart");
 let openCardList = [];
-
-
-/*
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+let cardMatchList = [];
+let move = 0;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -83,7 +90,6 @@ allCards.forEach(function(card) {
 				//add && !openCardList.length > 2
 			openCardList.push(card);
 			display(card);
-			console.log("working");
 		};
 
 		if(openCardList.length == 2) {
@@ -95,7 +101,8 @@ allCards.forEach(function(card) {
 			});
 			checkOpenCard(card);
 			openCardList = [];
-		}, 2000);
+			moveCounter();
+		}, 1000);
 		} else if (openCardList.length > 2) {
 		//don't add more cards, disable click
 			card.classList.remove("open", "show");
@@ -111,9 +118,9 @@ function display(card) {
 	 card.classList.add("open", "show");
 };
 
-function addToOpenCardList(cardChildArray) {
-	//add to array of open cards
-	//this list will continue to grow as cards are matched properly
+function moveCounter() {
+	move ++;
+	console.log(move);
 
 };
 
@@ -138,7 +145,13 @@ function checkOpenCard(card) {
 function listMatch(card, cardtwo) {
 	for(i = 0; i < openCardList.length; i++){
 		openCardList[i].classList.add("open", "show", "match");
-	}
+		cardMatchList.push(card);
 
+	}
+	console.log(cardMatchList)
 };
+
+function matchWin () {
+	//if cardMatchList.length === 16 , game win
+}
 
