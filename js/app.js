@@ -3,8 +3,35 @@
  */
 
 
-const allCards = document.querySelectorAll(".card");
-const deck = document.querySelector(".deck");
+let cards = [
+			"fa-diamond", "fa-diamond",
+			"fa-paper-plane-o","fa-paper-plane-o",
+			"fa-anchor", "fa-anchor",
+			"fa-bolt", "fa-bolt",
+			"fa-cube", "fa-cube",
+			"fa-leaf", "fa-leaf",
+			"fa-bicycle", "fa-bicycle",
+			"fa-bomb", "fa-bomb"
+			];
+
+function generateCard(card) {
+	return `<li class="card">` + `<i class='fa ${card}'></i>` + `</li>`;
+
+}
+
+function initGame() {
+	shuffle(cards);
+	let deck = document.querySelector(".deck");
+	let cardHTML = cards.map(function(card){
+		return generateCard(card);
+	});
+	deck.innerHTML = cardHTML.join('');
+
+}
+
+initGame();
+
+let allCards = document.querySelectorAll(".card");
 const scorePanel = document.querySelectorAll(".score-panel");
 const stars	= document.querySelectorAll(".scores");
 const moves = document.querySelectorAll(".moves");
@@ -22,19 +49,20 @@ let openCardList = [];
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-// function shuffle(array) {
-//     var currentIndex = array.length, temporaryValue, randomIndex;
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
-//     while (currentIndex !== 0) {
-//         randomIndex = Math.floor(Math.random() * currentIndex);
-//         currentIndex -= 1;
-//         temporaryValue = array[currentIndex];
-//         array[currentIndex] = array[randomIndex];
-//         array[randomIndex] = temporaryValue;
-//     }
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
 
-//     return array;
-// }
+    return array;
+}
+
 
 
 /*
@@ -51,22 +79,26 @@ let openCardList = [];
 //function derived from https://www.reddit.com/r/learnjavascript/comments/3rfyi2/which_is_the_better_way_to_add_an_event_listener/
 allCards.forEach(function(card) {
 	card.addEventListener('click', function(e) {
-		if (card.classList.contains("open") || !card.classList.contains("show")){
-
+		if (!card.classList.contains("open") && !card.classList.contains("show") && !card.classList.contains("match")){
+				//add && !openCardList.length > 2
 			openCardList.push(card);
 			display(card);
+			console.log("working");
 		};
 
-	if(openCardList.length == 2) {
+		if(openCardList.length == 2) {
 		//hide
 		setTimeout(function(){
 			openCardList.forEach(function(card){
 				card.classList.remove("open", "show");
+
 			});
+			checkOpenCard(card);
 			openCardList = [];
-		}, 1000);
-	} else if (openCardList.length > 2) {
-		//don't add more cards
+		}, 2000);
+		} else if (openCardList.length > 2) {
+		//don't add more cards, disable click
+			card.classList.remove("open", "show");
 	}
 
 	// }
@@ -82,39 +114,31 @@ function display(card) {
 function addToOpenCardList(cardChildArray) {
 	//add to array of open cards
 	//this list will continue to grow as cards are matched properly
-	openCardList.push(cardChildArray);
-	if(openCardList.length >= 2) {
-		//hide
-	} else {
-		display(cardEventTarget);
-	}
-		checkOpenCard(openCardList, cardChildArray)
 
 };
 
 // function derived from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf#Compatibility_notes
-function checkOpenCard(openCardList, cardarray) {
-		if (openCardList.indexOf(cardarray) === -1) {
-        	console.log('New array is : ' + openCardList);
-    	} else if (openCardList.indexOf(cardarray) > -1) {
-        	console.log('You got a match!');
-    	}
+function checkOpenCard(card) {
+  		let openCardFirst  = openCardList[0].firstChild.className;
+  		let openCardSecond = openCardList[1].firstChild.className;
+  		console.log(openCardList)
 
-		// for(let i = 1; i < openCardList.length; i++){
-		// 	//function runs through the array and sees if card matches
-		// 	if(openCardList[i][0] === openCardList[(i-1)][0]){
-		// 		console.log("equals");
-		// 		// lock function
-		// 	} else {
-		// 		console.log("not equal");
-		// 		// remove from list, hide (), separate function
-		// 	}
-		// };
-		// //check cards and see if they match, if match, lock (keep open and show classes, add match class) (requires separate function)
-		// // if no match, remove cards from list and hide cards (remove open and show classes) (requires separate function)
+			//function runs through the array and sees if card matches
+			if(openCardFirst === openCardSecond){
+				listMatch();
+				// lock function
+			} else {
+				console.log("not equal");
+				// remove from list, hide (), separate function
+			}
+		//check cards and see if they match, if match, lock (keep open and show classes, add match class) (requires separate function)
+		// if no match, remove cards from list and hide cards (remove open and show classes) (requires separate function)
 };
 
-function listMatch(cardEventTargetChild) {
+function listMatch(card, cardtwo) {
+	for(i = 0; i < openCardList.length; i++){
+		openCardList[i].classList.add("open", "show", "match");
+	}
 
 };
 
