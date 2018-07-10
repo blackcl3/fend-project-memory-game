@@ -18,8 +18,8 @@ let cards = [
 			"fa-bomb", "fa-bomb"
 			];
 
-
-
+let moves = document.querySelector(".moves");
+let restartButton = document.querySelector(".restart");
 /*
 
 /*
@@ -36,6 +36,7 @@ function generateCard(card) {
 
 function initGame() {
 	shuffle(cards);
+	moves.innerHTML = 0;
 	let deck = document.querySelector(".deck");
 	let cardHTML = cards.map(function(card){
 		return generateCard(card);
@@ -46,14 +47,15 @@ function initGame() {
 
 initGame();
 
+
 let allCards = document.querySelectorAll(".card");
-const scorePanel = document.querySelectorAll(".score-panel");
-const stars	= document.querySelectorAll(".scores");
-const moves = document.querySelectorAll(".moves");
-const restartButton = document.querySelectorAll(".restart");
+let scorePanel = document.querySelectorAll(".score-panel");
+let stars	= document.querySelectorAll(".scores");
 let openCardList = [];
 let cardMatchList = [];
 let move = 0;
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -69,7 +71,6 @@ function shuffle(array) {
 
     return array;
 }
-
 
 
 /*
@@ -114,13 +115,25 @@ allCards.forEach(function(card) {
 });
 
 
+restartButton.addEventListener('click', function(){
+		console.log("clicked");
+
+		allCards.forEach(function(card){
+			card.classList.remove("open", "show", "match");
+		});
+		let cardMatchList = [];
+		moves.innerHTML = 0;
+		shuffle(cards);
+
+});
+
 function display(card) {
 	 card.classList.add("open", "show");
 };
 
 function moveCounter() {
 	move ++;
-	console.log(move);
+	moves.innerHTML = move;
 
 };
 
@@ -154,4 +167,7 @@ function listMatch(card, cardtwo) {
 function matchWin () {
 	//if cardMatchList.length === 16 , game win
 }
+
+
+
 
