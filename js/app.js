@@ -54,8 +54,10 @@ let stars	= document.querySelectorAll(".scores");
 let openCardList = [];
 let cardMatchList = [];
 let move = 0;
-
-
+let modal = document.querySelector(".modal");
+let modalContent = document.querySelector(".modal-content");
+let modalContentChild = modalContent.children[1];
+let closeButton = document.querySelector(".close-button");
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -101,8 +103,9 @@ allCards.forEach(function(card) {
 
 			});
 			checkOpenCard(card);
-			openCardList = [];
 			moveCounter();
+			openCardList = [];
+
 		}, 1000);
 		} else if (openCardList.length > 2) {
 		//don't add more cards, disable click
@@ -125,6 +128,10 @@ restartButton.addEventListener('click', function(){
 		moves.innerHTML = 0;
 		shuffle(cards);
 
+});
+
+closeButton.addEventListener('click', function(){
+	modal.classList.toggle("show-modal");
 });
 
 function display(card) {
@@ -159,13 +166,17 @@ function listMatch(card, cardtwo) {
 	for(i = 0; i < openCardList.length; i++){
 		openCardList[i].classList.add("open", "show", "match");
 		cardMatchList.push(card);
-
+		if (cardMatchList.length === 16) {
+			matchWin();
+		}
 	}
-	console.log(cardMatchList)
+
 };
 
 function matchWin () {
-	//if cardMatchList.length === 16 , game win
+	moveCounter();
+	modal.classList.add("show-modal");
+	modalContentChild.innerText = ("Winner! That took you " + move + " moves!");
 }
 
 
