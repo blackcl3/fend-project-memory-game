@@ -19,7 +19,7 @@ let cards = [
 			];
 
 let moves = document.querySelector(".moves");
-let restartButton = document.querySelector(".restart");
+let restartButton = document.querySelectorAll(".restart");
 /*
 
 /*
@@ -28,6 +28,8 @@ let restartButton = document.querySelector(".restart");
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+
 
 function generateCard(card) {
 	return `<li class="card">` + `<i class='fa ${card}'></i>` + `</li>`;
@@ -47,17 +49,28 @@ function initGame() {
 
 initGame();
 
-
+let container = document.querySelector(".container");
 let allCards = document.querySelectorAll(".card");
 let scorePanel = document.querySelectorAll(".score-panel");
 let stars	= document.querySelectorAll(".scores");
 let openCardList = [];
 let cardMatchList = [];
+let second = 0;
+let seconds = document.getElementById("seconds");
+let minutes = document.getElementById("minutes");
 let move = 0;
 let modal = document.querySelector(".modal");
 let modalContent = document.querySelector(".modal-content");
 let modalContentChild = modalContent.children[1];
 let closeButton = document.querySelector(".close-button");
+let timer = document.querySelector(".timer");
+let clicked = false;
+let winner = false;
+let myTimer = "";
+
+
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -87,8 +100,21 @@ function shuffle(array) {
  */
 
 //function derived from https://www.reddit.com/r/learnjavascript/comments/3rfyi2/which_is_the_better_way_to_add_an_event_listener/
+
+
+container.addEventListener('click', function(e){
+	if(!clicked) {
+		clicked = true;
+		startTimer();
+	}
+
+});
+
+
+
 allCards.forEach(function(card) {
 	card.addEventListener('click', function(e) {
+
 		if (!card.classList.contains("open") && !card.classList.contains("show") && !card.classList.contains("match")){
 				//add && !openCardList.length > 2
 			openCardList.push(card);
@@ -96,7 +122,7 @@ allCards.forEach(function(card) {
 		};
 
 		if(openCardList.length == 2) {
-		//hide
+
 		setTimeout(function(){
 			openCardList.forEach(function(card){
 				card.classList.remove("open", "show");
@@ -118,25 +144,38 @@ allCards.forEach(function(card) {
 });
 
 
-restartButton.addEventListener('click', function(){
-		console.log("clicked");
-
-		allCards.forEach(function(card){
-			card.classList.remove("open", "show", "match");
-		});
-		let cardMatchList = [];
-		moves.innerHTML = 0;
-		shuffle(cards);
-
-});
 
 closeButton.addEventListener('click', function(){
 	modal.classList.toggle("show-modal");
 });
 
+restartButton.forEach(function(button){
+		button.addEventListener('click', function(){
+		reset();
+		modal.classList.remove("show-modal");
+	});
+});
+
+function startTimer() {
+
+	myTimer = setInterval(function() {
+		second++;
+		seconds.innerText = second % 60;
+		minutes.innerText = parseInt(second / 60);
+
+	}, 1000);
+
+};
+
+
+
 function display(card) {
 	 card.classList.add("open", "show");
 };
+
+function stopTimer() {
+	clearInterval(myTimer);
+}
 
 function moveCounter() {
 	move ++;
@@ -162,6 +201,8 @@ function checkOpenCard(card) {
 		// if no match, remove cards from list and hide cards (remove open and show classes) (requires separate function)
 };
 
+
+
 function listMatch(card, cardtwo) {
 	for(i = 0; i < openCardList.length; i++){
 		openCardList[i].classList.add("open", "show", "match");
@@ -173,10 +214,26 @@ function listMatch(card, cardtwo) {
 
 };
 
+function reset() {
+	let clicked = false;
+	allCards.forEach(function(card){
+			card.classList.remove("open", "show", "match");
+		});
+	let cardMatchList = [];
+	second = 0;
+	moves.innerHTML = 0;
+	minutes.innerText = 0;
+	seconds.innerText = 0;
+	stopTimer(myTimer);
+	shuffle(cards);
+}
+
 function matchWin () {
+	winner = true;
+	stopTimer(myTimer);
 	moveCounter();
 	modal.classList.add("show-modal");
-	modalContentChild.innerText = ("Winner! That took you " + move + " moves!");
+	modalContentChild.innerText = ("Winner! That took you " + (move+1) + " moves and " + second + " seconds!");
 }
 
 

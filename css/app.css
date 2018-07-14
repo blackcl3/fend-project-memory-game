@@ -87,7 +87,7 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    width: 375px;
     margin-bottom: 10px;
 }
 
@@ -109,8 +109,7 @@ h1 {
 }
 
 /*
-* styles for modal for winning game
-* derived from https://sabe.io/tutorials/how-to-create-modal-popup-box
+* modal for winning game derived from https://sabe.io/tutorials/how-to-create-modal-popup-box
 */
 
 .modal {
