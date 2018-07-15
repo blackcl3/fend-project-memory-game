@@ -133,6 +133,8 @@ function shuffle(array) {
     return array;
 }
 
+
+//timer function derived from https://logicalmoon.com/2015/05/using-javascript-to-create-a-timer/
 function startTimer() {
 
 	myTimer = setInterval(function() {
