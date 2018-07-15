@@ -1,12 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-
-
-
-
 let cards = [
 			"fa-diamond", "fa-diamond",
 			"fa-paper-plane-o","fa-paper-plane-o",
@@ -20,32 +11,6 @@ let cards = [
 
 let moves = document.querySelector(".moves");
 let restartButton = document.querySelectorAll(".restart");
-/*
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-
-
-function generateCard(card) {
-	return `<li class="card">` + `<i class='fa ${card}'></i>` + `</li>`;
-
-}
-
-function initGame() {
-	shuffle(cards);
-	moves.innerHTML = 0;
-	let deck = document.querySelector(".deck");
-	let cardHTML = cards.map(function(card){
-		return generateCard(card);
-	});
-	deck.innerHTML = cardHTML.join('');
-
-}
 
 initGame();
 
@@ -67,24 +32,6 @@ let clicked = false;
 let winner = false;
 let myTimer = "";
 
-
-
-
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
 
 
 /*
@@ -155,6 +102,37 @@ restartButton.forEach(function(button){
 	});
 });
 
+function generateCard(card) {
+	return `<li class="card">` + `<i class='fa ${card}'></i>` + `</li>`;
+
+}
+
+function initGame() {
+	shuffle(cards);
+	moves.innerHTML = 0;
+	let deck = document.querySelector(".deck");
+	let cardHTML = cards.map(function(card){
+		return generateCard(card);
+	});
+	deck.innerHTML = cardHTML.join('');
+
+}
+
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
 function startTimer() {
 
 	myTimer = setInterval(function() {
@@ -177,9 +155,7 @@ function stopTimer() {
 }
 
 function moveCounter() {
-	// let starOne = stars[0].innerHTML;
-	// let starTwo = stars[1].innerHTML;
-	// let starThree = stars[2].innerHTML;
+
  	starCounter = 3;
 	move ++;
 	if (move > 8 && move < 12) {
