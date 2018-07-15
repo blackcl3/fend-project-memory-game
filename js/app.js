@@ -51,8 +51,7 @@ initGame();
 
 let container = document.querySelector(".container");
 let allCards = document.querySelectorAll(".card");
-let scorePanel = document.querySelectorAll(".score-panel");
-let stars	= document.querySelectorAll(".scores");
+let stars	= document.querySelectorAll("ul.stars li");
 let openCardList = [];
 let cardMatchList = [];
 let second = 0;
@@ -151,8 +150,8 @@ closeButton.addEventListener('click', function(){
 
 restartButton.forEach(function(button){
 		button.addEventListener('click', function(){
-		reset();
-		modal.classList.remove("show-modal");
+			modal.classList.remove("show-modal");
+			reset();
 	});
 });
 
@@ -178,7 +177,28 @@ function stopTimer() {
 }
 
 function moveCounter() {
+	// let starOne = stars[0].innerHTML;
+	// let starTwo = stars[1].innerHTML;
+	// let starThree = stars[2].innerHTML;
+ 	starCounter = 3;
 	move ++;
+	if (move > 8 && move < 12) {
+
+		stars[2].firstChild.classList.remove("fa-star");
+		stars[2].firstChild.classList.add("fa-star-o");
+		starCounter = 2;
+
+	} else if (move >= 12  && move <= 20) {
+		stars[1].firstChild.classList.remove("fa-star");
+		stars[1].firstChild.classList.add("fa-star-o");
+		starCounter = 1;
+
+	} else if (move > 21 ) {
+		stars[0].firstChild.classList.remove("fa-star");
+		stars[0].firstChild.classList.add("fa-star-o");
+		starCounter = 0;
+	}
+
 	moves.innerHTML = move;
 
 };
@@ -215,11 +235,18 @@ function listMatch(card, cardtwo) {
 };
 
 function reset() {
-	let clicked = false;
+	winner = false;
+	clicked = false;
 	allCards.forEach(function(card){
 			card.classList.remove("open", "show", "match");
 		});
-	let cardMatchList = [];
+	stars.forEach(function(star){
+		star.firstChild.classList.add("fa-star");
+		star.firstChild.classList.remove("fa-star-o");
+
+	});
+	cardMatchList = [];
+	move = 0;
 	second = 0;
 	moves.innerHTML = 0;
 	minutes.innerText = 0;
@@ -233,7 +260,7 @@ function matchWin () {
 	stopTimer(myTimer);
 	moveCounter();
 	modal.classList.add("show-modal");
-	modalContentChild.innerText = ("Winner! That took you " + (move+1) + " moves and " + second + " seconds!");
+	modalContentChild.innerText = ("Winner! That took you " + (move+1) + " moves and " + second + " seconds! " + starCounter + " stars for you!");
 }
 
 
