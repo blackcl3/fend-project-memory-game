@@ -213,8 +213,8 @@ function checkOpenCard(card) {
 				listMatch();
 				// lock function
 			} else {
-				console.log("not equal");
 				// remove from list, hide (), separate function
+				return;
 			}
 
 };
@@ -277,6 +277,16 @@ function reset() {
 	initGame();
 	const container = document.querySelector(".container");
 	const allCard = document.querySelectorAll("li.card");
+	allCard.forEach(function(card) {
+	card.addEventListener('click', function(e) {
+		if (!card.classList.contains("open") && !card.classList.contains("show") && !card.classList.contains("match") && !(openCardList.length > 2)){
+				//add && !openCardList.length > 2
+				openCardList.push(card);
+				cardDisplay(card);
+		}
+	});
+	// }
+});
 
 
 }
