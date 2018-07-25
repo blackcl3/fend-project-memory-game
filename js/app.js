@@ -52,7 +52,7 @@ let myTimer = "";
 
 //function derived from https://www.reddit.com/r/learnjavascript/comments/3rfyi2/which_is_the_better_way_to_add_an_event_listener/
 
-
+//allows deck to be clicked and timer to start if not already begun
 deck.addEventListener('click', function(e){
 	if(!clicked) {
 		clicked = true;
@@ -126,7 +126,7 @@ function shuffle(array) {
 
 
 //timer function derived from https://logicalmoon.com/2015/05/using-javascript-to-create-a-timer/
-// starts timer
+// starts timer keeping track of game time
 function startTimer() {
 
 	myTimer = setInterval(function() {
@@ -176,7 +176,7 @@ function moveCounter() {
 
 //card logic
 
-
+//shows card, compares to other card, removes from list if no match, and times out if no match
 function cardDisplay(card){
 	if(openCardList.length <= 2) {
 
@@ -220,7 +220,7 @@ function checkOpenCard(card) {
 };
 
 
-
+//functionality for a winning match
 function listMatch(card, cardtwo) {
 	for(i = 0; i < openCardList.length; i++){
 		openCardList[i].classList.add("open", "show", "match");
@@ -232,7 +232,7 @@ function listMatch(card, cardtwo) {
 
 };
 
-
+//called when match is won, calls a modal with score, time, and number of moves
 function matchWin () {
 	winner = true;
 	stopTimer(myTimer);

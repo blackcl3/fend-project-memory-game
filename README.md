@@ -7,7 +7,14 @@
 
 ## Instructions
 
-Click on squares to find matching symbols. The goal of the game is to get the matches in the fewest moves. Good luck!
+Click on squares to find matching symbols. The goal of the game is to get the matches in the fewest moves.
+
+
+
+
+Good luck!
+
+Dependencies: Font Awesome 4.6.1 , Coda Google Font
 
 ## Contributing
 
